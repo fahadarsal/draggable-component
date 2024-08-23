@@ -1,23 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../styles/DraggableComponent.css";
 
-interface DraggableButtonProps {
+interface DraggableComponentProps {
   children: React.ReactNode;
   initialPosition?: { x: number; y: number };
   randomPosition?: boolean;
   showTooltip?: boolean;
+  tooltipComponent?: React.ReactNode; // Custom tooltip component
+  tooltipDuration?: number; // Duration for which the tooltip should be displayed in milliseconds
 }
 
-const DraggableComponent: React.FC<DraggableButtonProps> = ({
+const DraggableComponent: React.FC<DraggableComponentProps> = ({
   children,
   initialPosition,
   randomPosition = false,
-  showTooltip,
+  showTooltip = false,
+  tooltipComponent = <div>I am draggable!</div>, // Default tooltip if not provided
+  tooltipDuration = 3000, // Default duration of 3 seconds
 }) => {
   const buttonRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [hasMoved, setHasMoved] = useState(false); // State to track if the button has been dragged
+  const [isTooltipVisible, setIsTooltipVisible] = useState(showTooltip); // Tooltip visibility state
   const dragOffset = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -43,6 +48,17 @@ const DraggableComponent: React.FC<DraggableButtonProps> = ({
       });
     }
   }, [initialPosition, randomPosition]);
+
+  useEffect(() => {
+    if (showTooltip) {
+      setIsTooltipVisible(true);
+      const timer = setTimeout(() => {
+        setIsTooltipVisible(false);
+      }, tooltipDuration);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showTooltip, tooltipDuration]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -138,6 +154,7 @@ const DraggableComponent: React.FC<DraggableButtonProps> = ({
       onTouchStart={handleTouchStart}
       ref={buttonRef}
     >
+      {isTooltipVisible && tooltipComponent}
       {children}
     </div>
   );

@@ -1,6 +1,6 @@
 {
   "name": "draggable-component",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Make Children of this component draggable",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
