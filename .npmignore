@@ -1,0 +1,10 @@
+node_modules
+src
+*.ts
+*.tsx
+*.spec.ts
+*.test.tsx
+*.stories.tsx
+.git
+.vscode
+.DS_Store

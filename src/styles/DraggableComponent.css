@@ -1,0 +1,20 @@
+.draggable-component {
+  position: fixed;
+  z-index: 1000;
+  cursor: grab;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 15px;
+  transition: box-shadow 0.3s ease;
+}
+
+.draggable-component:active {
+  cursor: grabbing;
+}
+
+.draggable-component.dragging {
+  opacity: 0.8;
+  transition: none;
+}
